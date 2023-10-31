@@ -1,0 +1,236 @@
+package FunProgramación.Fp.SopaDeLetras;
+
+import java.util.Scanner;
+
+public class SopaDl {
+
+    public static boolean busqHorizontal(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        int m = matriz[0].length;
+
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila][columna + i] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean busqVertical(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        int n = matriz.length;
+        if (fila + longitud > n) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila + i][columna] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean buscarDiagonalDesdeArribaDerecha(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        int n = matriz.length;
+        int m = matriz[0].length;
+        if (fila + longitud > n || columna + longitud > m) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila + i][columna + i] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean buscarVerticalInvertida(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        if (fila - longitud + 1 < 0) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila - i][columna] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean buscarHorizontalInvertida(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        if (columna - longitud + 1 < 0) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila][columna - i] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean buscarDiagonalDesdeAbajoIzquierda(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        if (fila - longitud + 1 < 0 || columna - longitud + 1 < 0) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila - i][columna - i] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean buscarDiagonalDesdeArribaIzquierda(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        int n = matriz.length;
+        if (fila + longitud > n || columna - longitud + 1 < 0) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila + i][columna - i] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean buscarDiagonalDesdeAbajoDerecha(char[][] matriz, String palabra, int fila, int columna) {
+        int longitud = palabra.length();
+        if (fila - longitud + 1 < 0 || columna + longitud > matriz[0].length) {
+            return false;
+        }
+        for (int i = 1; i < longitud; i++) {
+            if (matriz[fila - i][columna + i] != palabra.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String[] divideFraseEnPalabras(String frase) {
+        int palabraCount = 0;
+        String[] palabras = new String[frase.length()];
+
+        int palabraInicio = 0;
+        int palabraFin = -1;
+        int indice = 0;
+
+        for (int i = 0; i < frase.length(); i++) {
+            char c = frase.charAt(i);
+
+            if (c == ' ') {
+                if (palabraFin > palabraInicio) {
+                    palabras[indice] = frase.substring(palabraInicio, palabraFin + 1);
+                    palabraCount++;
+                    indice++;
+                }
+                palabraInicio = i + 1;
+                palabraFin = i;
+            } else {
+                palabraFin = i;
+            }
+        }
+
+        if (palabraInicio <= palabraFin) {
+            palabras[indice] = frase.substring(palabraInicio, palabraFin + 1);
+            palabraCount++;
+        }
+
+        String[] palabrasReales = new String[palabraCount];
+
+        for (int i = 0; i < palabraCount; i++) {
+            palabrasReales[i] = palabras[i];
+        }
+
+        return palabrasReales;
+    }
+
+    public static void main(String[] args) {
+        char[][] matriz = {
+                { 'm', 'x', 'z', 'y', 'a', 'm', 'i', 'g', 'o', 's' },
+                { 'a', 'v', 'a', 'n', 'a', 'p', 's', 'e', 'a', 'u' },
+                { 'r', 'x', 'i', 'y', 'c', 'o', 'n', 'a', 'x', 's' },
+                { 'i', 'x', 'z', 'a', 'o', 'o', 'l', 'l', 'k', 'y' },
+                { 'a', 'x', 'z', 's', 'j', 'u', 'l', 'l', 'l', 'e' },
+                { 'b', 'e', 'b', 'e', 'i', 'o', 'p', 'p', 'e', 'p' }
+        };
+        for (int fila = 0; fila < matriz.length; fila++) {
+            for (int columna = 0; columna < matriz[fila].length; columna++) {
+                System.out.print(matriz[fila][columna] + " ");
+            }
+            System.out.println();
+        }
+
+        Scanner S = new Scanner(System.in);
+
+        System.out.print("Ingrese la frase que desea buscar en la sopa de letras: ");
+        String buscar = S.nextLine();
+
+        String[] palabras = divideFraseEnPalabras(buscar);
+        int pasosTotales = 0;
+        for (int i = 0; i < palabras.length; i++) {
+            String palabraABuscar = palabras[i];
+            int n = matriz.length;
+            int m = matriz[0].length;
+            int longitud = palabraABuscar.length();
+            boolean encontrada = false;
+
+            for (int fila = 0; fila < n && !encontrada; fila++) {
+                for (int columna = 0; columna < m && !encontrada; columna++) {
+                    pasosTotales++;
+                    if (matriz[fila][columna] == palabraABuscar.charAt(0)) {
+                        if (busqHorizontal(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1)
+                                    + ") hasta (" + (fila + 1) + "," + (columna + longitud) + ") horizontal directo.");
+                            encontrada = true;
+                        } else if (busqVertical(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1)
+                                    + ") hasta (" + (fila + longitud) + "," + (columna + 1) + ") vertical directo.");
+                            encontrada = true;
+                        } else if (buscarDiagonalDesdeArribaDerecha(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1)
+                                    + ") hasta (" + (fila + longitud) + "," + (columna + longitud)
+                                    + ") diagonal desde arriba hacia la derecha.");
+                            encontrada = true;
+                        } else if (buscarVerticalInvertida(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(
+                                    palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1) + ") hasta ("
+                                            + (fila - longitud + 2) + "," + (columna + 1) + ") vertical invertido.");
+                            encontrada = true;
+                        } else if (buscarHorizontalInvertida(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(
+                                    palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1) + ") hasta ("
+                                            + (fila + 1) + "," + (columna - longitud + 2) + ") horizontal invertido.");
+                            encontrada = true;
+                        } else if (buscarDiagonalDesdeAbajoIzquierda(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1)
+                                    + ") hasta (" + (fila - longitud + 1) + "," + (columna - longitud + 1)
+                                    + ") en diagonal desde abajo y hacia la izquierda.");
+                            encontrada = true;
+                        } else if (buscarDiagonalDesdeArribaIzquierda(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1)
+                                    + ") hasta (" + (fila + longitud) + "," + (columna - longitud + 2)
+                                    + ") en diagonal desde arriba y hacia la izquierda.");
+                            encontrada = true;
+                        } else if (buscarDiagonalDesdeAbajoDerecha(matriz, palabraABuscar, fila, columna)) {
+                            System.out.println(palabraABuscar + " encontrado en (" + (fila + 1) + "," + (columna + 1)
+                                    + ") hasta (" + (fila - longitud + 2) + "," + (columna + longitud)
+                                    + ") en diagonal desde abajo hacia la derecha.");
+                            encontrada = true;
+                        }
+                    }
+                }
+            }
+
+            if (!encontrada) {
+                System.out.println("La palabra '" + palabraABuscar + "' no se encuentra en la sopa de letras.");
+            }
+        }
+
+        System.out.println("Realizó " + pasosTotales + " pasos en total.");
+    }
+}
