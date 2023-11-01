@@ -149,8 +149,10 @@ public class SopaLetrasPractica {
         return encontrada;
     }
 
-    public static void imprimirResultado(String palabra, int fila, int columna, String tipo) {
-        System.out.println(palabra + " encontrado en (" + (fila + 1) + "," + (columna + 1) + ") como " + tipo + ".");
+    public static void imprimirResultado(String palabra, int filaInicio, int columnaInicio, int filaFin, int columnaFin,
+            String tipo) {
+        System.out.println(palabra + " encontrado en (" + (filaInicio + 1) + "," + (columnaInicio + 1) + ") hasta ("
+                + (filaFin + 1) + "," + (columnaFin + 1) + ") como " + tipo + ".");
     }
 
     public static void buscarPalabraEnMatriz(char[][] matriz, String palabra) {
@@ -163,35 +165,43 @@ public class SopaLetrasPractica {
                 if (palabra.charAt(0) == matriz[fila][columna]) {
                     if (buscarHorizontalDirecto(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "horizontal directo");
+                        imprimirResultado(palabra, fila, columna, fila, columna + palabra.length() - 1,
+                                "horizontal directo");
                     }
                     if (buscarHorizontalInvertido(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "horizontal invertido");
+                        imprimirResultado(palabra, fila, columna, fila, columna - palabra.length() + 1,
+                                "horizontal invertido");
                     }
                     if (buscarVerticalDirecto(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "vertical directo");
+                        imprimirResultado(palabra, fila, columna, fila + palabra.length() - 1, columna,
+                                "vertical directo");
                     }
                     if (buscarVerticalInvertido(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "vertical invertido");
+                        imprimirResultado(palabra, fila, columna, fila - palabra.length() + 1, columna,
+                                "vertical invertido");
                     }
                     if (buscarDiagonalIzquierdaDerechaDirecta(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "diagonal izquierda-derecha directa");
+                        imprimirResultado(palabra, fila, columna, fila + palabra.length() - 1,
+                                columna + palabra.length() - 1, "diagonal izquierda-derecha directa");
                     }
                     if (buscarDiagonalIzquierdaDerechaInvertida(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "diagonal izquierda-derecha invertida");
+                        imprimirResultado(palabra, fila, columna, fila - palabra.length() + 1,
+                                columna - palabra.length() + 1, "diagonal izquierda-derecha invertida");
                     }
                     if (buscarDiagonalDerechaIzquierdaDirecta(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "diagonal derecha-izquierda directa");
+                        imprimirResultado(palabra, fila, columna, fila + palabra.length() - 1,
+                                columna - palabra.length() + 1, "diagonal derecha-izquierda directa");
                     }
                     if (buscarDiagonalDerechaIzquierdaInvertida(matriz, palabra, fila, columna)) {
                         encontrada = true;
-                        imprimirResultado(palabra, fila, columna, "diagonal derecha-izquierda invertida");
+                        imprimirResultado(palabra, fila, columna, fila - palabra.length() + 1,
+                                columna + palabra.length() - 1, "diagonal derecha-izquierda invertida");
                     }
                 }
             }
