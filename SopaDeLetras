@@ -155,14 +155,16 @@ public class SopaLetrasPractica {
                 + (filaFin + 1) + "," + (columnaFin + 1) + ") como " + tipo + ".");
     }
 
-    public static void buscarPalabraEnMatriz(char[][] matriz, String palabra) {
+    public static int buscarPalabraEnMatriz(char[][] matriz, String palabra) {
         int n = matriz.length;
         int m = matriz[0].length;
         boolean encontrada = false;
+        int pasos = 0;
 
         for (int fila = 0; fila < n; fila++) {
             for (int columna = 0; columna < m; columna++) {
                 if (palabra.charAt(0) == matriz[fila][columna]) {
+                    pasos++;
                     if (buscarHorizontalDirecto(matriz, palabra, fila, columna)) {
                         encontrada = true;
                         imprimirResultado(palabra, fila, columna, fila, columna + palabra.length() - 1,
@@ -203,6 +205,7 @@ public class SopaLetrasPractica {
                         imprimirResultado(palabra, fila, columna, fila - palabra.length() + 1,
                                 columna + palabra.length() - 1, "diagonal derecha-izquierda invertida");
                     }
+                    pasos += palabra.length() - 1;
                 }
             }
         }
@@ -210,6 +213,8 @@ public class SopaLetrasPractica {
         if (!encontrada) {
             System.out.println(palabra + ", no se encontró.");
         }
+
+        return pasos;
     }
 
     public static void main(String[] args) {
@@ -236,10 +241,15 @@ public class SopaLetrasPractica {
         String buscar = S.nextLine();
         String[] palabras = buscar.split(" ");
 
+        int totalPasos = 0; // Inicializar el contador total de pasos
+
         for (int i = 0; i < palabras.length; i++) {
             String palabra = palabras[i];
-            buscarPalabraEnMatriz(matriz, palabra);
+            int pasos = buscarPalabraEnMatriz(matriz, palabra); // Obtener los pasos para esta palabra
+            totalPasos += pasos; // Sumar los pasos a la cuenta total
         }
+
+        System.out.println("Número total de pasos para buscar la frase: " + totalPasos);
 
         S.close();
     }
